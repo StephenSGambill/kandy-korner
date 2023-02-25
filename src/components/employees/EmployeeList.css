@@ -1,0 +1,11 @@
+.employees{
+    display: flex;
+    justify-content: space-around;
+}
+
+.employee {
+    background-color: aliceblue;
+    border: 1px dotted blue;
+    margin: 10px;
+    padding: 10px;
+}
