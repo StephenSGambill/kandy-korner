@@ -18,7 +18,7 @@ export const ProductForm = () => {
                 updateTypes(productTypesArray)
             })
         },
-        [types]
+        []
        )
 
     const handleSaveButtonClick = (event) => {
@@ -47,6 +47,9 @@ export const ProductForm = () => {
             })
     }
 
+
+
+
     return (
         <form className="productForm">
             <h2 className="prductForm__title">New Product Form</h2>
@@ -58,7 +61,8 @@ export const ProductForm = () => {
                         type="text"
                         className="form-control"
                         placeholder="What do you want to name your new product?"
-                        value={product.name}
+                        value={product.name} 
+                        key={`product--${product.id}`}
                         onChange={
                             (evt) => {
                                 const copy = {...product}

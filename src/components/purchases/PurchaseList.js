@@ -1,60 +1,66 @@
 import { useEffect, useState } from "react"
-import { useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 // import "./PurchaseForm.css"
 
 export const PurchasesList = () => {
-   const [purchases, setPurchases] = useState([])
-   const [customers, setCustomers] = useState([])
-   const [users, setUsers] = useState([])
-   const navigate = useNavigate()
+    const [purchases, setPurchases] = useState([])
+    const [customer, setCustomer] = useState({})
+    const navigate = useNavigate()
+    const [products, setProducts] = useState([])
+    const [productTypes, setProductTypes] = useState([])
 
-   useEffect(
-    () => {
-        fetch(`http://localhost:8088/purchases`)
-        .then(response => response.json())
-        .then((purchasesArray) => {
-            setPurchases(purchasesArray)
-        })
-    },
-    []
-   )
+    const localUser = localStorage.getItem("kandy_user")
+    const userObject = JSON.parse(localUser)
+
 
     useEffect(() => {
-        fetch(`http://localhost:8088/customers`)
-        .then(response => response.json())
-        .then((customersArray) => {
-            setCustomers(customersArray)
+
+        fetch(`http://localhost:8088/users?id=${userObject.id}&_embed=customers`)
+            .then(response => response.json())
+            .then((customer) => {
+                setCustomer(customer[0])
+
+        fetch(`http://localhost:8088/purchases?customerId=${userObject.id}`)
+            .then(response => response.json())
+            .then((purchasesArray) => {
+                setPurchases(purchasesArray)
         
-        })
-    }, 
-        []
-    )
+        fetch(`http://localhost:8088/products?_embed=productTypes`)
+            .then(response => response.json())
+            .then((productsArray) => {
+                setProducts(productsArray)
 
-    useEffect(() => {
-        fetch(`http://localhost:8088/users`)
-        .then(response => response.json())
-        .then((usersArray) => {
-            setUsers(usersArray)
-        })
+        
+            }) 
+
+                    })
+            })
     }, []
     )
 
+
     return <>
-    <h2>List of Purchases</h2>
+        <h2>List of Purchases for {customer?.firstName} {customer?.lastName}</h2>
 
-    <article className="purchases" >
-    {
-    purchases.map((purchase) => {
-        const foundCustomerId = customers.find((customer) => purchase.customerId === customer.userId)
-        const foundUser = users.find((user) => foundCustomerId?.userId === user.id)
-            return <section className="purchase" key={`purchase--${purchase.id}`}>
-            <header>Order Number: {purchase.customerId}</header>
-            <footer>Customer: {foundUser?.firstName} {foundUser?.lastName}</footer>
-        </section>
-    }
-    )
-    }
-    </article>
+        <article className="purchases" >
+            {
+                purchases.map((purchase) => {
+                    const thisProduct = products.find((product) => product.id === purchase.productId)
+                    const totalCost = purchase?.productAmount * thisProduct?.price
+
+                    return <section className="purchase" 
+                    key={`purchase--${purchase.id}`}>
+                        <header>Order #{purchase.id}</header>
+                        <ul>
+                            <li>Candy: {thisProduct?.name}</li>
+                            <li>Amount: {purchase.productAmount}</li>
+                            <li>Purchase Total: ${totalCost}</li>
+                            <li>Purchase Date: {purchase.purchaseDate}</li>
+                            
+                        </ul>
+                    </section>
+                })
+            }
+        </article>
     </>
-
 }

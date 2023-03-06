@@ -1,9 +1,3 @@
-import {Routes, Route, Outlet} from "react-router-dom"
-import {PurchasesList} from "../purchases/PurchaseList"
-import {PurchaseForm} from "../purchases/PurchaseForm"
-import {LocationsList} from "../locations/LocationsList"
-import {ProductsList} from "../products/ProductList"
-import { ProductForm } from "../products/ProductForm"
 import { EmployeeView } from "./EmployeeView"
 import { CustomerView } from "./CustomerView"
 

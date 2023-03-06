@@ -1,0 +1,11 @@
+.customers{
+    display: flex;
+    justify-content: space-around;
+}
+
+.customer {
+    background-color: aliceblue;
+    border: 1px dotted blue;
+    margin: 10px;
+    padding: 10px;
+}
