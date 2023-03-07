@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
+import { getProductById, setPurchase } from "../ApiManager"
 import "./PurchaseList.css"
 
 export const PurchaseForm = ( ) => {
@@ -22,8 +23,7 @@ export const PurchaseForm = ( ) => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/products/${productId}`)
-                .then(response => response.json())
+                getProductById(productId)
                 .then((thisProduct) => {
                     setProduct(thisProduct)
                 })
@@ -36,16 +36,7 @@ export const PurchaseForm = ( ) => {
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
                
-        
-        return fetch(`http://localhost:8088/purchases`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-
-            },
-            body: JSON.stringify(newPurchase)
-        })
-            .then(response => response.json())
+            setPurchase(newPurchase)
             .then(() => {
               
                navigate("/cart")

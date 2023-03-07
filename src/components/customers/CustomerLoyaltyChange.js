@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
+import { getCustomerByUserId, setCustomersByCustomerId } from "../ApiManager"
 
 
 
@@ -13,8 +14,7 @@ export const CustomerLoyaltyChange = () => {
 
     useEffect (
         () => {
-            fetch(`http://localhost:8088/customers?userId=${customerId}`)
-                .then((response) => response.json())
+                getCustomerByUserId(customerId)
                 .then((data) => {
                     const singleCustomer = data[0]
                     updateCustomer(singleCustomer)
@@ -26,16 +26,7 @@ export const CustomerLoyaltyChange = () => {
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
         
-        return fetch(`http://localhost:8088/customers/${customerId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-
-            },
-            //change string to JSON object
-            body: JSON.stringify(customer)
-        })
-            .then(response => response.json())
+            setCustomersByCustomerId(customerId, customer)
             .then(() => {
                 //go to (route) ticket portion to page
                 navigate("/customers")

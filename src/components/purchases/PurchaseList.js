@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { getCustomerUsers, getProductsAndTypes, getPurchasesbyCustomerId } from "../ApiManager"
 // import "./PurchaseForm.css"
 
 export const PurchasesList = () => {
@@ -15,27 +16,19 @@ export const PurchasesList = () => {
 
     useEffect(() => {
 
-        fetch(`http://localhost:8088/users?id=${userObject.id}&_embed=customers`)
-            .then(response => response.json())
+            getCustomerUsers(userObject.id)
             .then((customer) => {
                 setCustomer(customer[0])
 
-        fetch(`http://localhost:8088/purchases?customerId=${userObject.id}`)
-            .then(response => response.json())
+            getPurchasesbyCustomerId(userObject.id)
             .then((purchasesArray) => {
-                setPurchases(purchasesArray)
+            setPurchases(purchasesArray)
         
-        fetch(`http://localhost:8088/products?_embed=productTypes`)
-            .then(response => response.json())
+            getProductsAndTypes()
             .then((productsArray) => {
                 setProducts(productsArray)
-
-        
-            }) 
-
-                    })
-            })
-    }, []
+            })})})
+        }, []
     )
 
 
