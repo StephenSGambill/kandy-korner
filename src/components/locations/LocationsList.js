@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate} from "react-router-dom"
+import { getLocations } from "../ApiManager"
 import "./Locations.css"
 
 export const LocationsList = () => {
@@ -8,8 +9,7 @@ export const LocationsList = () => {
 
    useEffect(
     () => {
-        fetch(`http://localhost:8088/locations`)
-        .then(response => response.json())
+        getLocations()
         .then((locationsArray) => {
             setLocations(locationsArray)
         })

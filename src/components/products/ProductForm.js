@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { getProductTypes, setProduct } from "../ApiManager"
 
 
 
@@ -12,8 +13,7 @@ export const ProductForm = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/productTypes`)
-            .then(response => response.json())
+            getProductTypes()
             .then((productTypesArray) => {
                 updateTypes(productTypesArray)
             })
@@ -30,17 +30,7 @@ export const ProductForm = () => {
             typeId: parseInt(product.typeId)
             }
         
-            
-        return fetch(`http://localhost:8088/products`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-
-            },
-            //change string to JSON object
-            body: JSON.stringify(productToSendToAPI)
-        })
-            .then(response => response.json())
+            setProduct(productToSendToAPI)
             .then(() => {
                 //go to (route) ticket portion to page
                 navigate("/products")
@@ -78,6 +68,7 @@ export const ProductForm = () => {
                         type="text"
                         placeholder="Price per item?"
                         value={product.price}
+                        key={product.id}
                         onChange={
                             (evt) => {
                                 const copy = {...product}
@@ -99,7 +90,7 @@ export const ProductForm = () => {
                             }}>
                         <option value="" >Choose a Category</option>
                         {types.map((type) => {
-                            return <option value={type.id}>{type.category}</option>           
+                            return <option key={type.id} value={type.id}>{type.category}</option>           
                         })}
                         
                     </select> 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { getLocations, setNewEmployeeEmployeeInfo, setNewEmployeeUserInfo } from "../ApiManager"
 
 
 
@@ -18,8 +19,7 @@ export const EmployeeHireForm = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/locations`)
-                .then(response => response.json())
+                getLocations()
                 .then((locationsArray) => {
                     updateLocations(locationsArray)
                 })
@@ -44,29 +44,11 @@ export const EmployeeHireForm = () => {
             locationId: newEmployee.locationId
         }
 
-
-        return fetch(`http://localhost:8088/users`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(employeeInfoToSendToUserAPI)
-        })
-            .then(response => response.json()) //figure out how to get a response of newly created object
-
+            setNewEmployeeUserInfo(employeeInfoToSendToUserAPI)
             .then(newEmployeeFromAPI => {
                 employeeInfoToSendToEmployeeAPI.userId = parseInt(newEmployeeFromAPI.id)
 
-                fetch(`http://localhost:8088/employees`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(employeeInfoToSendToEmployeeAPI)
-                })
-                    .then(response => response.json())
-
+                    setNewEmployeeEmployeeInfo(employeeInfoToSendToEmployeeAPI)
                     .then(() => {
                         navigate(`/employees`)
                     })

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { getProducts, getProductTypes } from "../ApiManager"
 import "./ProductList.css"
 
 export const ProductsList = ({ searchTermsState }) => {
@@ -28,8 +29,7 @@ export const ProductsList = ({ searchTermsState }) => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/products`)
-                .then(response => response.json())
+            getProducts()
                 .then((productsArray) => {
                     setProducts(productsArray)
                     setFilteredProducts(productsArray)
@@ -41,8 +41,7 @@ export const ProductsList = ({ searchTermsState }) => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/productTypes`)
-                .then(response => response.json())
+            getProductTypes()
                 .then((productTypesArray) => {
                     setProductTypes(productTypesArray)
                 })

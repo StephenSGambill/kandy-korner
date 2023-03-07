@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { getCustomerUser } from "../ApiManager"
 import { Customer } from "./Customer"
 
 
@@ -10,8 +11,7 @@ export const CustomerList = () => {
 
     useEffect(
         () => {
-         fetch(`http://localhost:8088/customers?_expand=user`)
-            .then(response => response.json())
+            getCustomerUser()
             .then((customerArray)=> {
                 setCustomers(customerArray)
                 })

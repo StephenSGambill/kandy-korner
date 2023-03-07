@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { getCustomerInCart, getProducts, getUserCustomer } from "../ApiManager"
 import "./Cart.css"
 
 export const Cart = () => {
@@ -13,18 +14,15 @@ export const Cart = () => {
 
     useEffect(
         () => {
-        fetch(`http://localhost:8088/customers?userId=${userObject.id}&_expand=user`)
-            .then(response => response.json())
+            getUserCustomer(userObject.id)
             .then((customer)=> {
                 setCurrentCustomer(customer[0])
                 })
-        fetch(`http://localhost:8088/purchases?customerId=${userObject.id}&inCart=true`)
-            .then(response => response.json())
+            getCustomerInCart(userObject.id)
             .then((inCartPurchases)=> {
                 setpurchasesInCart(inCartPurchases)
                 })
-        fetch('http://localhost:8088/products')
-            .then(response => response.json())
+            getProducts()
             .then((productType) => {
                 setProducts(productType)
             })
