@@ -36,7 +36,7 @@ export const CustomerLoyaltyChange = () => {
     return (<form 
             className="loyaltyForm">
                 <h2>Modify Loyalty Number for: {customer?.user?.firstName} {customer?.user?.lastName}</h2>
-            <fieldset>
+            {/* <fieldset> */}
                 <div className="form-group">
                     <label htmlFor="loyaltyNumber">Loyalty Number:</label>
                     <input 
@@ -53,7 +53,7 @@ export const CustomerLoyaltyChange = () => {
                             }
                         } />
                 </div>
-            </fieldset>
+            {/* </fieldset> */}
             <button
                 onClick={(clickEvent) => handleSaveButtonClick(clickEvent)}
                 className="btn btn-primary">

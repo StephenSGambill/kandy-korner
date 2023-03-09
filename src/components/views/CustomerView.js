@@ -4,6 +4,7 @@ import { PurchasesList } from "../purchases/PurchaseList"
 import { PurchaseForm } from "../purchases/PurchaseForm"
 import { ProductForm } from "../products/ProductForm"
 import { ProductContainer } from "../products/ProductContainer"
+import { InventoryContainer } from "../inventory/InventoryContainer"
 import { Cart } from "../cart/Cart"
 
 
@@ -31,6 +32,8 @@ export const CustomerView = () => {
                 <Route path="purchase/:productId/create/" element={<PurchaseForm />} />
 
                 <Route path="cart" element={<Cart />} />
+
+                <Route path="inventory" element={<InventoryContainer />} />
 
 
 

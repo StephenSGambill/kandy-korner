@@ -143,3 +143,8 @@ export const getProductsAndTypes = () => {
     return fetch(`http://localhost:8088/products?_embed=productTypes`)
     .then(response => response.json())
 }
+
+export const getPurchases = () => {
+    return fetch(`http://localhost:8088/purchases`)
+    .then(response => response.json())
+}
